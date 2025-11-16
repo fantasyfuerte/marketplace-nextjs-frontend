@@ -6,8 +6,8 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { registerUser, loginUser, verifyEmail, sendVerificationCode } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -22,7 +22,6 @@ export default function LoginPage() {
     verificationCode: ''
   })
   const router = useRouter()
-  const { toast } = useToast()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,19 +29,12 @@ export default function LoginPage() {
     if (needsVerification) {
       const success = verifyEmail(tempEmail, formData.verificationCode)
       if (success) {
-        toast({
-          title: 'Verificación exitosa',
-          description: 'Ahora puedes iniciar sesión',
-        })
+        toast.success('Email verificado')
         setNeedsVerification(false)
         setIsLogin(true)
         setFormData({ ...formData, verificationCode: '' })
       } else {
-        toast({
-          title: 'Código incorrecto',
-          description: 'Verifica el código e intenta nuevamente',
-          variant: 'destructive'
-        })
+        toast.error('Código incorrecto')
       }
       return
     }
@@ -50,17 +42,10 @@ export default function LoginPage() {
     if (isLogin) {
       const success = loginUser(formData.email, formData.password)
       if (success) {
-        toast({
-          title: 'Bienvenido',
-          description: 'Has iniciado sesión correctamente',
-        })
+        toast.success('Bienvenido')
         router.push('/')
       } else {
-        toast({
-          title: 'Error',
-          description: 'Credenciales incorrectas o email no verificado',
-          variant: 'destructive'
-        })
+        toast.error('Credenciales incorrectas o email no verificado')
       }
     } else {
       const result = registerUser({
@@ -74,16 +59,9 @@ export default function LoginPage() {
       if (result.success) {
         setTempEmail(formData.email)
         setNeedsVerification(true)
-        toast({
-          title: 'Registro exitoso',
-          description: `Código de verificación: ${result.verificationCode}`,
-        })
+        toast.success(`Código de verificación: ${result.verificationCode}`)
       } else {
-        toast({
-          title: 'Error',
-          description: result.message,
-          variant: 'destructive'
-        })
+        toast.error(result.message)
       }
     }
   }
