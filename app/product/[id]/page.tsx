@@ -64,6 +64,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         isLoggedIn={isLoggedIn}
         cartCount={cartCount}
         onCartUpdate={() => setCartCount(getCartCount())}
+        setIsLoggedIn={setIsLoggedIn}
       />
 
       <main className="container mx-auto px-4 py-8 sm:px-6 sm:py-12">
@@ -84,7 +85,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               priority
             />
             {productWithImage.stock < 10 && (
-              <div className="absolute right-3 top-3 rounded-md bg-secondary px-3 py-2 text-sm font-light text-secondary-foreground sm:right-4 sm:top-4 sm:px-4">
+              <div className="absolute right-3 top-3 rounded-md bg-secondary px-3 py-2 text-sm font-semibold text-white sm:right-4 sm:top-4 sm:px-4">
                 Solo {productWithImage.stock} disponibles
               </div>
             )}

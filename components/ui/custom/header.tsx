@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { CartSheet } from '@/components/ui/custom/cart-sheet'
 import { CheckoutDialog } from '@/components/ui/custom/checkout-dialog'
-// import { setCurrentUser } from '@/lib/auth'
+import { setCurrentUser } from '@/lib/auth'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -15,17 +15,17 @@ interface HeaderProps {
   isLoggedIn: boolean
   cartCount: number
   onCartUpdate: () => void
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function Header({ isLoggedIn, cartCount, onCartUpdate }: HeaderProps) {
+export function Header({ isLoggedIn, cartCount, onCartUpdate, setIsLoggedIn }: HeaderProps) {
   const [showCart, setShowCart] = useState(false)
   const [showCheckout, setShowCheckout] = useState(false)
-  const router = useRouter()
 
   const handleLogout = () => {
-    // setCurrentUser(null)
-    // toast.success('Sesión cerrada')
-    // router.refresh()
+    setCurrentUser(null)
+    toast.success('Sesión cerrada')
+    setIsLoggedIn(false)
   }
 
   const handleCheckout = () => {
@@ -43,10 +43,10 @@ export function Header({ isLoggedIn, cartCount, onCartUpdate }: HeaderProps) {
         <div className="container mx-auto flex items-center justify-between px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2 sm:gap-3">
             <div className="flex h-10 w-10 items-center justify-center bg-primary sm:h-12 sm:w-12">
-              <span className="text-xl font-light text-primary-foreground sm:text-2xl">E</span>
+              <span className="text-xl font-light text-primary-foreground sm:text-2xl">A</span>
             </div>
             <div>
-              <h1 className="text-lg font-light tracking-tight text-foreground sm:text-xl">All Novu</h1>
+              <h1 className="text-lg font-bold font-mono tracking-tight text-foreground sm:text-xl">ALLNOVU</h1>
               <p className="hidden text-xs font-light text-muted-foreground sm:block">Distribuidora</p>
             </div>
           </Link>

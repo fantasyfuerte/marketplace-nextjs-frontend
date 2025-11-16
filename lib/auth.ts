@@ -127,7 +127,7 @@ export function loginUser(email: string, password: string): boolean {
     return false
   }
 
-  if (!user.isVerified) {
+  if (!user.emailVerified) {
     return false
   }
 
@@ -179,7 +179,7 @@ export function verifyEmail(email: string, code: string): boolean {
     return false
   }
 
-  users[userIndex].isVerified = true
+  users[userIndex].emailVerified = true
   localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users))
 
   // Eliminar código usado
